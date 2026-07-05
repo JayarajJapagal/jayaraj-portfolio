@@ -27,9 +27,11 @@ build:
 
 deploy:
   stage: deploy
-  image: amazon/aws-cli:latest
+  image: python:3.11-slim
   dependencies:
     - build
+  before_script:
+    - pip install awscli --quiet
   script:
     - aws s3 sync frontend/out/ s3://$S3_BUCKET --delete
     - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/*"
