@@ -32,8 +32,6 @@ deploy:
     - build
   script:
     - aws s3 sync frontend/out/ s3://$S3_BUCKET --delete
-    - aws cloudfront create-invalidation
-        --distribution-id $CF_DISTRIBUTION_ID
-        --paths "/*"
+    - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/*"
   only:
     - main
