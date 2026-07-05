@@ -1,93 +1,291 @@
-# jayaraj-portfolio
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+# Jayaraj Japagal — Portfolio
+ 
+> DevOps & Platform Engineer · AWS · Kubernetes · Python · AI · Bengaluru, India
+ 
+[![Live](https://img.shields.io/badge/Live-jayaraj.vercel.app-6366f1?style=flat-square)](https://jayaraj.vercel.app)
+[![GitLab](https://img.shields.io/badge/GitLab-Jayaraj__1437-orange?style=flat-square&logo=gitlab)](https://gitlab.com/Jayaraj_1437)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+ 
+---
+ 
+## Overview
+ 
+Personal portfolio and engineering showcase built to demonstrate real-world cloud architecture, DevOps practices, and AI-powered engineering — not just list technologies on a resume.
+ 
+The site itself is an engineering decision:
+ 
+- **Frontend** hosted on Vercel (right tool for Next.js static/SSR)
+- **Backend API** hosted on AWS EKS (demonstrates Kubernetes, Terraform, IAM)
+- **AI chatbot** powered by Claude API with RAG over my actual resume and project docs
+---
+ 
+## Live
+ 
+| | URL |
+|---|---|
+| Portfolio | https://jayaraj.vercel.app |
+| Backend API | https://api.jayaraj.dev *(coming soon)* |
+| Ecommerce Project | https://gitlab.com/Jayaraj_1437/ecommerce-system |
+ 
+---
+ 
+## Tech Stack
+ 
+### Frontend
+| Technology | Purpose |
+|---|---|
+| Next.js 14 | React framework, App Router |
+| TypeScript | Type safety |
+| Tailwind CSS | Utility-first styling |
+| Framer Motion | Page transitions + animations |
+| React Flow | Interactive architecture diagram |
+| Lucide React | Icons |
+ 
+### Backend (AI)
+| Technology | Purpose |
+|---|---|
+| FastAPI (Python) | REST API for AI chat |
+| Claude API (Anthropic) | AI responses |
+| RAG Pipeline | Context-aware answers from resume + project docs |
+| pgvector on RDS | Vector embeddings storage |
+| sentence-transformers | Document embedding |
+ 
+### Infrastructure
+| Technology | Purpose |
+|---|---|
+| AWS EKS | Kubernetes cluster for backend |
+| AWS RDS PostgreSQL | Database + pgvector |
+| AWS ElastiCache Redis | Caching |
+| AWS S3 | Asset storage |
+| AWS Route53 | DNS management |
+| AWS ALB | Load balancing |
+| Terraform | Infrastructure as Code |
+| GitLab CI/CD | Continuous deployment |
+| Vercel | Frontend hosting + CDN |
+ 
+---
+ 
+## Project Structure
+ 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/Jayaraj_1437/jayaraj-portfolio.git
-git branch -M main
-git push -uf origin main
+jayaraj-portfolio/
+├── app/                        # Next.js App Router pages
+│   ├── layout.tsx              # Root layout (sidebar + topbar)
+│   ├── page.tsx                # About page
+│   ├── experience/
+│   │   └── page.tsx            # Career timeline
+│   ├── projects/
+│   │   └── page.tsx            # Project showcase
+│   ├── architecture/
+│   │   └── page.tsx            # Interactive AWS diagram
+│   ├── skills/
+│   │   └── page.tsx            # Skills dashboard
+│   ├── blog/
+│   │   └── page.tsx            # Learning notes
+│   ├── ai/
+│   │   └── page.tsx            # AI chat assistant
+│   └── contact/
+│       └── page.tsx            # Contact form
+│
+├── components/                 # Reusable UI components
+│   ├── layout/
+│   │   ├── Sidebar.tsx         # Navigation sidebar
+│   │   └── Topbar.tsx          # Top bar with clock + status
+│   ├── ui/
+│   │   ├── Drawer.tsx          # Slide-out detail panel
+│   │   ├── SkillCard.tsx       # Clickable skill card
+│   │   ├── Tag.tsx             # Colored tag/badge
+│   │   └── Terminal.tsx        # Terminal UI component
+│   └── sections/
+│       ├── ArchDiagram.tsx     # React Flow architecture diagram
+│       ├── Timeline.tsx        # Experience timeline
+│       └── AIChat.tsx          # Chat interface
+│
+├── lib/                        # Utilities and data
+│   ├── data/
+│   │   ├── experience.ts       # Career history data
+│   │   ├── skills.ts           # Skills data
+│   │   ├── projects.ts         # Project details
+│   │   └── architecture.ts     # Architecture node data
+│   └── api.ts                  # API client functions
+│
+├── public/                     # Static assets
+│   ├── resume.pdf              # Downloadable resume
+│   └── og-image.png            # Social preview image
+│
+├── .gitlab-ci.yml              # GitLab CI/CD pipeline
+├── next.config.ts              # Next.js configuration
+├── tailwind.config.ts          # Tailwind configuration
+└── .env.example                # Environment variable template
 ```
-
-## Integrate with your tools
-
-* [Set up project integrations](https://gitlab.com/Jayaraj_1437/jayaraj-portfolio/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
+ 
+---
+ 
+## Pages
+ 
+### About
+Personal story, career direction, live system status indicators, recent pipeline activity.
+ 
+### Experience
+Interactive timeline split into two tabs:
+- **Organisations** — Mercedes-Benz R&D India, TCS
+- **Education** — RNSIT B.Tech, AWS certifications
+### Projects
+- **Cloud-Native E-Commerce Platform** — 5 FastAPI microservices on AWS EKS, Terraform IaC, Redis cart, SQS async processing, Next.js frontend
+- **MCP-Based CI/CD Intelligence** — RAG pipeline + MCP server for GitHub Copilot at Mercedes-Benz
+### Architecture
+Interactive AWS architecture diagram built with React Flow.  
+Click any component (VPC, EKS, RDS, Redis, SQS, CloudFront...) to open a detail drawer showing what it does, why I chose it, and proof via code snippets.
+ 
+### Skills
+14 skill cards — AWS, EKS, Terraform, Docker, GitLab CI/CD, Python, FastAPI, PostgreSQL, Redis, SQS, Prometheus/Grafana, Loki, RAG/MCP, Helm.  
+Each card is clickable and opens a drawer with what I built using that skill.
+ 
+### AI Chat
+Ask anything about Jayaraj. Powered by Claude API with a RAG pipeline over my resume, project documentation, and architecture decisions.
+ 
+### Contact
+Direct links (email, phone, GitLab, LinkedIn) + message form.
+ 
+---
+ 
+## Architecture
+ 
+```
+                        Internet
+                            │
+                    jayaraj.vercel.app
+                            │
+                    ┌───────────────┐
+                    │    Vercel     │
+                    │   (Next.js)   │
+                    └───────┬───────┘
+                            │ HTTPS API calls
+                            │
+                    api.jayaraj.dev
+                            │
+                        Route53
+                            │
+                           ALB
+                            │
+                          EKS
+                    ┌───────┴────────┐
+                    │                │
+               portfolio-api      ai-api
+               (FastAPI)          (FastAPI + RAG)
+                    │                │
+            ┌───────┴────────┐       │
+            │                │       │
+      RDS PostgreSQL    ElastiCache  S3
+        + pgvector         Redis
+```
+ 
+---
+ 
+## Getting Started
+ 
+### Prerequisites
+```bash
+node >= 18
+npm >= 9
+```
+ 
+### Local Development
+```bash
+# Clone
+git clone https://gitlab.com/Jayaraj_1437/jayaraj-portfolio.git
+cd jayaraj-portfolio
+ 
+# Install
+npm install
+ 
+# Environment
+cp .env.example .env.local
+# Add your Claude API key to .env.local
+ 
+# Run
+npm run dev
+```
+ 
+Open [http://localhost:3000](http://localhost:3000)
+ 
+### Environment Variables
+```bash
+# .env.example
+NEXT_PUBLIC_API_URL=http://localhost:8000   # Backend API URL
+CLAUDE_API_KEY=                             # Anthropic API key (server-side only)
+NEXT_PUBLIC_APP_URL=http://localhost:3000   # Frontend URL
+```
+ 
+---
+ 
+## Deployment
+ 
+### Frontend (Vercel)
+```bash
+# Automatic — push to main triggers deployment
+git push origin main
+ 
+# Manual
+npx vercel --prod
+```
+ 
+### Backend (AWS EKS)
+```bash
+# Build and push Docker image
+docker buildx build --platform linux/amd64 -t portfolio-api --load .
+docker push $ECR_URL/portfolio-api:latest
+ 
+# Deploy to EKS
+kubectl apply -f k8s/
+```
+ 
+### Infrastructure (Terraform)
+```bash
+cd infrastructure
+terraform init
+terraform plan
+terraform apply
+```
+ 
+---
+ 
+## CI/CD
+ 
+GitLab CI/CD pipeline (`.gitlab-ci.yml`):
+ 
+```
+push to main
+      │
+      ├── lint + type check
+      ├── build Next.js
+      ├── deploy to Vercel (frontend)
+      └── build + push Docker image
+          └── deploy to EKS (backend)
+```
+ 
+---
+ 
+## Related Projects
+ 
+| Project | Description |
+|---|---|
+| [ecommerce-system](https://gitlab.com/Jayaraj_1437/ecommerce-system) | Cloud-native ecommerce platform on AWS (5 microservices, EKS, Terraform, SQS, Prometheus) |
+ 
+---
+ 
+## Author
+ 
+**Jayaraj Japagal**  
+DevOps & Platform Engineer  
+Bengaluru, India
+ 
+- Email: jayaraj.japagal07@icloud.com
+- Phone: 8197985949
+- GitLab: [gitlab.com/Jayaraj_1437](https://gitlab.com/Jayaraj_1437)
+- LinkedIn: [linkedin.com/in/jayaraj-japagal](https://linkedin.com/in/jayaraj-japagal)
+---
+ 
 ## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+ 
+MIT — feel free to use this as inspiration for your own portfolio.
