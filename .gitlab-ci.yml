@@ -1,0 +1,39 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  AWS_DEFAULT_REGION: eu-central-1
+  S3_BUCKET: jayaraj-portfolio-dev
+  CF_DISTRIBUTION_ID: E23HVB5ZUXOFRE
+
+build:
+  stage: build
+  image: node:20-alpine
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - frontend/node_modules/
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/out/
+    expire_in: 1 hour
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  image: amazon/aws-cli:latest
+  dependencies:
+    - build
+  script:
+    - aws s3 sync frontend/out/ s3://$S3_BUCKET --delete
+    - aws cloudfront create-invalidation
+        --distribution-id $CF_DISTRIBUTION_ID
+        --paths "/*"
+  only:
+    - main
