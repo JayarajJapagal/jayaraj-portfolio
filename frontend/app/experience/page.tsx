@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState } from 'react'
 
 const experience = [
@@ -65,21 +64,36 @@ export default function Experience() {
   const [expanded, setExpanded] = useState<string | null>(null)
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
             {/* Header */}
-            <div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>// career</div>
-              <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#e2e4f0', letterSpacing: '-0.5px' }}>
-                Experience<span style={{ color: '#3b82f6' }}>.</span>
-              </h1>
-              <div style={{ width: '45px', height: '2px', background: 'linear-gradient(90deg, #f97316, #3b82f6)', borderRadius: '1px', marginTop: '0.5rem' }} />
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem' }}>
+              <div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>// career</div>
+                <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#e2e4f0', letterSpacing: '-0.5px' }}>
+                  Experience<span style={{ color: '#3b82f6' }}>.</span>
+                </h1>
+                <div style={{ width: '45px', height: '2px', background: 'linear-gradient(90deg, #f97316, #3b82f6)', borderRadius: '1px', marginTop: '0.5rem' }} />
+              </div>
+              <a
+                href="/resume.pdf"
+                download
+                className="fx-btn-outline"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  padding: '9px 16px', borderRadius: '8px', flexShrink: 0,
+                  border: '1px solid rgba(59,130,246,0.5)', background: 'rgba(59,130,246,0.08)',
+                  color: '#3b82f6', fontSize: '12px', fontWeight: 500,
+                  fontFamily: 'JetBrains Mono, monospace', textDecoration: 'none',
+                }}
+              >
+                ⬇ Download Resume
+              </a>
             </div>
+
+            {/* Content card */}
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', animationDelay: '60ms' }}>
 
             {/* Tabs */}
             <div style={{ display: 'flex', background: '#1a1d2e', border: '1px solid #252840', borderRadius: '8px', padding: '4px', gap: '4px' }}>
@@ -100,12 +114,20 @@ export default function Experience() {
               <div style={{ position: 'relative', paddingLeft: '2rem' }}>
                 <div style={{ position: 'absolute', left: '7px', top: '8px', bottom: '8px', width: '1px', background: '#252840' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {experience.map((exp) => (
-                    <div key={exp.company} style={{ position: 'relative' }}>
-                      <div style={{ position: 'absolute', left: '-1.85rem', top: '1.1rem', width: '12px', height: '12px', borderRadius: '50%', background: exp.color, border: '2px solid #12141f', boxShadow: `0 0 8px ${exp.color}60` }} />
-                      <div style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', overflow: 'hidden' }}>
+                  {experience.map((exp, i) => (
+                    <div key={exp.company} className="fade-up" style={{ position: 'relative', animationDelay: `${i * 80}ms` }}>
+                      <div className={exp.tag === 'CURRENT' ? 'status-dot' : undefined} style={{ position: 'absolute', left: '-1.85rem', top: '1.1rem', width: '12px', height: '12px', borderRadius: '50%', background: exp.color, border: '2px solid #12141f', boxShadow: `0 0 8px ${exp.color}60` }} />
+                      <div className="fx-card" style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', overflow: 'hidden' }}>
                         <div onClick={() => setExpanded(expanded === exp.company ? null : exp.company)} style={{ padding: '1.25rem 1.5rem', cursor: 'pointer' }}>
-                          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#5a5e80', marginBottom: '6px' }}>{exp.period}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#5a5e80' }}>{exp.period}</span>
+                            {exp.tag === 'CURRENT' && (
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600, color: '#34d399', background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)', padding: '2px 8px', borderRadius: '10px', letterSpacing: '0.5px' }}>
+                                <span className="status-dot" style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#34d399' }} />
+                                NOW
+                              </span>
+                            )}
+                          </div>
                           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                             <div>
                               <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4f0', marginBottom: '4px' }}>{exp.role}</div>
@@ -116,7 +138,7 @@ export default function Experience() {
                           <p style={{ fontSize: '13px', color: '#6068a0', lineHeight: 1.65, marginTop: '0.75rem' }}>{exp.desc}</p>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '0.75rem' }}>
                             {exp.stack.map((s) => (
-                              <span key={s} style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', padding: '2px 8px', borderRadius: '4px', background: `${exp.color}10`, color: exp.color, border: `1px solid ${exp.color}25` }}>{s}</span>
+                              <span key={s} className="fx-pill" style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', padding: '2px 8px', borderRadius: '4px', background: `${exp.color}10`, color: exp.color, border: `1px solid ${exp.color}25` }}>{s}</span>
                             ))}
                           </div>
                         </div>
@@ -145,19 +167,19 @@ export default function Experience() {
               <div style={{ position: 'relative', paddingLeft: '2rem' }}>
                 <div style={{ position: 'absolute', left: '7px', top: '8px', bottom: '8px', width: '1px', background: '#252840' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {education.map((edu) => (
-                    <div key={edu.institution} style={{ position: 'relative' }}>
+                  {education.map((edu, i) => (
+                    <div key={edu.institution} className="fade-up" style={{ position: 'relative', animationDelay: `${i * 80}ms` }}>
                       <div style={{ position: 'absolute', left: '-1.85rem', top: '1.1rem', width: '12px', height: '12px', borderRadius: '50%', background: edu.color, border: '2px solid #12141f', boxShadow: `0 0 8px ${edu.color}60` }} />
-                      <div style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem 1.5rem' }}>
+                      <div className="fx-card" style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem 1.5rem' }}>
                         <div style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4f0', marginBottom: '4px' }}>{edu.degree}</div>
                         <div style={{ fontSize: '12px', color: edu.color, fontFamily: 'JetBrains Mono, monospace', marginBottom: '6px' }}>{edu.institution} · {edu.location}</div>
                         <div style={{ fontSize: '11px', color: '#5a5e80', fontFamily: 'JetBrains Mono, monospace' }}>{edu.period}</div>
                       </div>
                     </div>
                   ))}
-                  <div style={{ position: 'relative' }}>
+                  <div className="fade-up" style={{ position: 'relative', animationDelay: `${education.length * 80}ms` }}>
                     <div style={{ position: 'absolute', left: '-1.85rem', top: '1.1rem', width: '12px', height: '12px', borderRadius: '50%', background: '#f97316', border: '2px solid #12141f', boxShadow: '0 0 8px #f9731660' }} />
-                    <div style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem 1.5rem' }}>
+                    <div className="fx-card" style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem 1.5rem' }}>
                       <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#f97316', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>// certifications</div>
                       {certifications.map((cert, i) => (
                         <div key={cert.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: i < certifications.length - 1 ? '1px solid #252840' : 'none' }}>
@@ -174,9 +196,9 @@ export default function Experience() {
               </div>
             )}
 
+            </div>
+
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

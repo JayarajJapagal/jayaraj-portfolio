@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState } from 'react'
 
 export default function Contact() {
@@ -9,11 +8,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', company: '', email: '', role: '', message: '' })
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
             {/* Header */}
@@ -22,6 +17,9 @@ export default function Contact() {
               <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#e2e4f0', letterSpacing: '-0.5px' }}>Contact<span style={{ color: '#3b82f6' }}>.</span></h1>
               <div style={{ width: '45px', height: '2px', background: 'linear-gradient(90deg, #f97316, #3b82f6)', borderRadius: '1px', marginTop: '0.5rem' }} />
             </div>
+
+            {/* Content card */}
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', animationDelay: '60ms' }}>
 
             {/* Links */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -32,21 +30,21 @@ export default function Contact() {
                 { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/jayaraj-japagal', href: 'https://www.linkedin.com/in/jayaraj-japagal-1a106315b/', color: '#22d3ee' },
                 { icon: '📄', label: 'Resume', value: 'Download PDF', href: '/resume.pdf', color: '#8b5cf6' },
                 { icon: '📍', label: 'Location', value: 'Bengaluru, India', href: null, color: '#f87171' },
-              ].map((link) => (
+              ].map((link, i) => (
                 <a
                   key={link.label}
                   href={link.href || '#'}
                   target={link.href?.startsWith('http') ? '_blank' : undefined}
                   rel="noreferrer"
+                  className="fx-card fade-up"
                   style={{
                     display: 'flex', alignItems: 'center', gap: '12px',
                     background: '#1a1d2e', border: '1px solid #252840',
                     borderRadius: '10px', padding: '1rem',
-                    textDecoration: 'none', transition: 'border-color 0.15s',
+                    textDecoration: 'none',
                     cursor: link.href ? 'pointer' : 'default',
+                    animationDelay: `${i * 60}ms`,
                   }}
-                  onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.borderColor = link.color + '50'}
-                  onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.borderColor = '#252840'}
                 >
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: `${link.color}12`, border: `1px solid ${link.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0 }}>{link.icon}</div>
                   <div>
@@ -58,7 +56,7 @@ export default function Contact() {
             </div>
 
             {/* Message form */}
-            <div style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.5rem' }}>
+            <div className="fade-up" style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '10px', padding: '1.5rem', animationDelay: '360ms' }}>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '10px', color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1.25rem' }}>// send a message</div>
 
               {submitted ? (
@@ -82,6 +80,7 @@ export default function Contact() {
                           value={form[f.key as keyof typeof form]}
                           onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                           placeholder={f.placeholder}
+                          className="fx-input"
                           style={{ width: '100%', background: '#12141f', border: '1px solid #252840', borderRadius: '7px', padding: '9px 12px', fontSize: '13px', color: '#e2e4f0', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
                         />
                       </div>
@@ -94,11 +93,13 @@ export default function Contact() {
                       onChange={e => setForm({ ...form, message: e.target.value })}
                       placeholder="What are you looking for?"
                       rows={4}
+                      className="fx-input"
                       style={{ width: '100%', background: '#12141f', border: '1px solid #252840', borderRadius: '7px', padding: '9px 12px', fontSize: '13px', color: '#e2e4f0', fontFamily: 'JetBrains Mono, monospace', outline: 'none', resize: 'vertical' }}
                     />
                   </div>
                   <button
                     onClick={() => { if (form.name && form.email) setSubmitted(true) }}
+                    className="fx-btn"
                     style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '11px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'JetBrains Mono, monospace' }}
                   >
                     Send message →
@@ -107,9 +108,9 @@ export default function Contact() {
               )}
             </div>
 
+            </div>
+
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

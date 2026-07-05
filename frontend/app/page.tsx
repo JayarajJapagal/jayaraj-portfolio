@@ -1,25 +1,14 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 
 export default function Home() {
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#1b2236' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{
-          flex: 1, overflowY: 'auto',
-          background: '#1b2236',
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '2rem 1.5rem',
-        }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
             {/* About card */}
-            <div style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '2rem' }}>
+            <div className="fade-up" style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '2rem' }}>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#3b82f6', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '1rem' }}>
                 <span style={{ color: '#3b82f6' }}>◆</span>
                 Senior DevOps & Platform Engineer · Bengaluru, IN · 6+ yrs at scale
@@ -50,7 +39,7 @@ export default function Home() {
             </div>
 
             {/* Stats */}
-            <div style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem' }}>
+            <div className="fade-up" style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem', animationDelay: '80ms' }}>
               <div style={{ fontSize: '16px', fontWeight: 600, color: '#e2e4f0', marginBottom: '1.25rem' }}>By the Numbers</div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
                 {[
@@ -59,7 +48,7 @@ export default function Home() {
                   { val: '16', label: 'Terraform Files' },
                   { val: '2',  label: 'Companies' },
                 ].map((s) => (
-                  <div key={s.label} style={{ background: '#1b2236', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem', textAlign: 'center' }}>
+                  <div key={s.label} className="fx-card" style={{ background: '#1b2236', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '28px', fontWeight: 700, color: '#3b82f6', fontFamily: 'JetBrains Mono, monospace' }}>{s.val}</div>
                     <div style={{ fontSize: '11px', color: '#5a5e80', marginTop: '6px' }}>{s.label}</div>
                   </div>
@@ -68,7 +57,7 @@ export default function Home() {
             </div>
 
             {/* What I am doing */}
-            <div style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem' }}>
+            <div className="fade-up" style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem', animationDelay: '160ms' }}>
               <div style={{ fontSize: '16px', fontWeight: 600, color: '#e2e4f0', marginBottom: '1.25rem' }}>What I&apos;m Doing</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
@@ -79,7 +68,7 @@ export default function Home() {
                   { icon: '◈', title: 'Terraform & IaC', desc: 'Writing modular Terraform — VPC, EKS, RDS, SQS, IAM — with remote state in S3 and secrets in SSM.', tag: 'IaC' },
                   { icon: '⬡', title: 'GitLab CI/CD', desc: 'Designing and maintaining CI/CD pipelines for automotive-scale software delivery at Mercedes-Benz R&D India.', tag: 'CI/CD' },
                 ].map((item) => (
-                  <div key={item.title} style={{ background: '#1b2236', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  <div key={item.title} className="fx-card" style={{ background: '#1b2236', border: '1px solid #252840', borderRadius: '10px', padding: '1.25rem', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                     <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#161b2b', border: '1px solid #252840', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>
                       {item.icon}
                     </div>
@@ -96,7 +85,7 @@ export default function Home() {
             </div>
 
             {/* Tech stack */}
-            <div style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem' }}>
+            <div className="fade-up" style={{ background: '#161b2b', border: '1px solid #252840', borderRadius: '12px', padding: '1.75rem', animationDelay: '240ms' }}>
               <div style={{ fontSize: '16px', fontWeight: 600, color: '#e2e4f0', marginBottom: '1.25rem' }}>Tech Stack</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {[
@@ -116,9 +105,9 @@ export default function Home() {
                   { name: 'SQS', color: '#f97316' },
                   { name: 'Next.js', color: '#e2e4f0' },
                 ].map((t) => (
-                  <span key={t.name} style={{
+                  <span key={t.name} className="fx-pill" style={{
                     padding: '5px 14px', borderRadius: '20px', fontSize: '12px',
-                    fontFamily: 'JetBrains Mono, monospace',
+                    fontFamily: 'JetBrains Mono, monospace', cursor: 'default',
                     color: t.color, background: `${t.color}15`, border: `1px solid ${t.color}30`,
                   }}>{t.name}</span>
                 ))}
@@ -126,8 +115,6 @@ export default function Home() {
             </div>
 
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

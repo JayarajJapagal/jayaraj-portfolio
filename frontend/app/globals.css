@@ -15,3 +15,83 @@ html, body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #2e3050; border-radius: 2px; }
+
+/* ---- Effect system (ported from adityacprtm.dev reference) ---- */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+.fx-card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.fx-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.fx-pill {
+  transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.fx-pill:hover {
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  transform: translateY(-1px);
+}
+
+.fx-btn {
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.fx-btn:hover {
+  background: #60a5fa !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+}
+.fx-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.fx-btn-outline {
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.fx-btn-outline:hover {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+}
+.fx-btn-outline:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.fx-input {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.fx-input:focus {
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.fade-up {
+  /* backwards (not both): a finished fill-mode animation would keep
+     overriding transform and block .fx-card's hover lift */
+  animation: fadeUp 0.5s ease backwards;
+}
+
+.status-dot {
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .status-dot { animation: none !important; }
+  .fx-card, .fx-pill, .fx-btn, .fx-btn-outline { transition: none; }
+  .fx-card:hover, .fx-pill:hover, .fx-btn:hover, .fx-btn-outline:hover { transform: none; }
+}

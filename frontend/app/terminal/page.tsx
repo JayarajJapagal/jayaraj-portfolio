@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState, useRef, useEffect } from 'react'
 
 type Line = { type: 'input' | 'output' | 'error' | 'comment'; text: string }
@@ -111,11 +110,7 @@ export default function Terminal() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
             {/* Header */}
@@ -124,6 +119,9 @@ export default function Terminal() {
               <h1 style={{ fontSize: '32px', fontWeight: 700, color: '#e2e4f0', letterSpacing: '-0.5px' }}>Terminal<span style={{ color: '#3b82f6' }}>.</span></h1>
               <div style={{ width: '45px', height: '2px', background: 'linear-gradient(90deg, #f97316, #3b82f6)', borderRadius: '1px', marginTop: '0.5rem' }} />
             </div>
+
+            {/* Content card */}
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', animationDelay: '60ms' }}>
 
             {/* Terminal window */}
             <div style={{ background: '#0a0b14', border: '1px solid #252840', borderRadius: '12px', overflow: 'hidden' }}>
@@ -172,6 +170,7 @@ export default function Terminal() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {['whoami', 'skills', 'experience', 'projects', 'architecture', 'contact', 'help', 'clear'].map((cmd) => (
                   <button key={cmd} onClick={() => { setInput(cmd); setTimeout(() => { setInput(''); const newLines: Line[] = [{ type: 'input', text: cmd }]; if (cmd === 'clear') { setLines([{ type: 'comment', text: '# Terminal cleared' }]); return; } setLines(prev => [...prev, ...newLines, ...(commands[cmd] || [])]); }, 50) }}
+                    className="fx-pill"
                     style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', padding: '4px 12px', background: '#12141f', border: '1px solid #252840', borderRadius: '5px', color: '#6080d0', cursor: 'pointer' }}>
                     {cmd}
                   </button>
@@ -179,9 +178,9 @@ export default function Terminal() {
               </div>
             </div>
 
+            </div>
+
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

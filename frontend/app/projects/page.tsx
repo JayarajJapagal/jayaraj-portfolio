@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState } from 'react'
 
 const projects = [
@@ -50,11 +49,7 @@ export default function Projects() {
   const [expanded, setExpanded] = useState<string | null>('ecommerce')
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
             {/* Header */}
@@ -67,8 +62,9 @@ export default function Projects() {
             </div>
 
             {/* Projects */}
-            {projects.map((proj) => (
-              <div key={proj.id} style={{ background: '#1a1d2e', border: '1px solid #252840', borderLeft: `3px solid ${proj.color}`, borderRadius: '10px', overflow: 'hidden' }}>
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', animationDelay: '60ms' }}>
+            {projects.map((proj, i) => (
+              <div key={proj.id} className="fx-card fade-up" style={{ background: '#1a1d2e', border: '1px solid #252840', borderLeft: `3px solid ${proj.color}`, borderRadius: '10px', overflow: 'hidden', animationDelay: `${i * 80}ms` }}>
 
                 {/* Header */}
                 <div style={{ padding: '1.5rem' }}>
@@ -80,7 +76,7 @@ export default function Projects() {
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0, marginLeft: '1rem' }}>
                       <span style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: proj.statusColor, background: `${proj.statusColor}15`, border: `1px solid ${proj.statusColor}30`, padding: '3px 8px', borderRadius: '4px' }}>{proj.status}</span>
                       {proj.gitlab && (
-                        <a href={proj.gitlab} target="_blank" rel="noreferrer" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: proj.color, border: `1px solid ${proj.color}30`, padding: '3px 10px', borderRadius: '5px', textDecoration: 'none' }}>GitLab →</a>
+                        <a href={proj.gitlab} target="_blank" rel="noreferrer" className="fx-btn-outline" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: proj.color, background: 'transparent', border: `1px solid ${proj.color}30`, padding: '3px 10px', borderRadius: '5px', textDecoration: 'none' }}>GitLab →</a>
                       )}
                     </div>
                   </div>
@@ -95,7 +91,7 @@ export default function Projects() {
                   {/* Stack */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {proj.stack.map((s) => (
-                      <span key={s} style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', padding: '2px 8px', borderRadius: '4px', background: 'rgba(59,130,246,0.06)', color: '#6080d0', border: '1px solid rgba(59,130,246,0.15)' }}>{s}</span>
+                      <span key={s} className="fx-pill" style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', padding: '2px 8px', borderRadius: '4px', background: 'rgba(59,130,246,0.06)', color: '#6080d0', border: '1px solid rgba(59,130,246,0.15)' }}>{s}</span>
                     ))}
                   </div>
                 </div>
@@ -124,10 +120,9 @@ export default function Projects() {
                 )}
               </div>
             ))}
+            </div>
 
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

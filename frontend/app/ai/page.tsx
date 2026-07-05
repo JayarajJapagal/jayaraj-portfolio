@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState, useRef, useEffect } from 'react'
 
 type Message = { role: 'user' | 'ai'; text: string }
@@ -152,11 +151,7 @@ export default function AIChat() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
             {/* Header */}
@@ -167,6 +162,7 @@ export default function AIChat() {
             </div>
 
             {/* Chat panel */}
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.25rem', animationDelay: '60ms' }}>
             <div style={{ background: '#1a1d2e', border: '1px solid #252840', borderRadius: '12px', overflow: 'hidden' }}>
 
               {/* Chat header */}
@@ -177,7 +173,7 @@ export default function AIChat() {
                   <div style={{ fontSize: '11px', color: '#5a5e80', fontFamily: 'JetBrains Mono, monospace' }}>Knows my resume, projects, and architecture</div>
                 </div>
                 <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#34d399', fontFamily: 'JetBrains Mono, monospace' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399' }} />Online
+                  <span className="status-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399' }} />Online
                 </div>
               </div>
 
@@ -211,7 +207,7 @@ export default function AIChat() {
               {/* Suggestions */}
               <div style={{ padding: '0 1.25rem 0.75rem', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {suggestions.map((s) => (
-                  <button key={s} onClick={() => send(s)} style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', padding: '4px 10px', background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.18)', borderRadius: '20px', color: '#6080d0', cursor: 'pointer' }}>{s}</button>
+                  <button key={s} onClick={() => send(s)} className="fx-pill" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', padding: '4px 10px', background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.18)', borderRadius: '20px', color: '#6080d0', cursor: 'pointer' }}>{s}</button>
                 ))}
               </div>
 
@@ -222,15 +218,15 @@ export default function AIChat() {
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && send()}
                   placeholder="Ask about Jayaraj's experience, skills, or projects..."
+                  className="fx-input"
                   style={{ flex: 1, background: '#12141f', border: '1px solid #252840', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#e2e4f0', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
                 />
-                <button onClick={() => send()} style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '10px 16px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: 'JetBrains Mono, monospace', fontWeight: 500 }}>Send →</button>
+                <button onClick={() => send()} className="fx-btn" style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '10px 16px', borderRadius: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: 'JetBrains Mono, monospace', fontWeight: 500 }}>Send →</button>
               </div>
+            </div>
             </div>
 
           </div>
-        </main>
-      </div>
-    </div>
+    </AppShell>
   )
 }

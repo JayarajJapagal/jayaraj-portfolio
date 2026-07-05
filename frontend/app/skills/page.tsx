@@ -1,7 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/layout/Sidebar'
-import Topbar from '@/components/layout/Topbar'
+import AppShell from '@/components/layout/AppShell'
 import { useState } from 'react'
 
 const skills = [
@@ -65,15 +64,25 @@ const skills = [
 
 type SkillItem = typeof skills[0]['items'][0] & { catColor: string }
 
+const levelFill: Record<string, number> = { Expert: 5, Advanced: 4, Intermediate: 3 }
+const levelAbbr: Record<string, string> = { Expert: 'EXP', Advanced: 'ADV', Intermediate: 'INT' }
+
+function SkillMeter({ level, color }: { level: string; color: string }) {
+  const filled = levelFill[level] ?? 3
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <span key={i} style={{ width: '12px', height: '3px', borderRadius: '3px', background: i < filled ? color : '#252840' }} />
+      ))}
+    </span>
+  )
+}
+
 export default function Skills() {
   const [selected, setSelected] = useState<SkillItem | null>(null)
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#12141f' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Topbar />
-        <main style={{ flex: 1, overflowY: 'auto', background: '#12141f', display: 'flex', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+    <AppShell>
           <div style={{ width: '100%', maxWidth: '720px' }}>
 
             {/* Header */}
@@ -84,35 +93,36 @@ export default function Skills() {
             </div>
 
             {/* Card grid */}
+            <div className="fade-up" style={{ background: 'linear-gradient(180deg, #2b3459 0%, #262e4f 100%)', border: '1px solid #3a4374', borderRadius: '12px', padding: '1.5rem', animationDelay: '60ms' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-              {skills.flatMap((cat) =>
-                cat.items.map((skill) => (
-                  <div
-                    key={skill.name}
-                    onClick={() => setSelected({ ...skill, catColor: cat.color })}
-                    style={{
-                      background: '#1a1d2e', border: '1px solid #252840',
-                      borderRadius: '12px', padding: '1.25rem 1rem',
-                      cursor: 'pointer', textAlign: 'center',
-                      transition: 'border-color 0.15s, transform 0.1s',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = cat.color + '60'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#252840'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)' }}
-                  >
-                    {skill.badge && (
-                      <div style={{ position: 'absolute', top: '8px', right: '8px', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace', color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30`, padding: '1px 6px', borderRadius: '3px' }}>{skill.badge}</div>
-                    )}
-                    <div style={{ fontSize: '28px', marginBottom: '10px' }}>{skill.icon}</div>
-                    <div style={{ fontSize: '13px', fontWeight: 500, color: '#e2e4f0', marginBottom: '4px' }}>{skill.name}</div>
-                    <div style={{ fontSize: '10px', color: '#5a5e80', fontFamily: 'JetBrains Mono, monospace' }}>{cat.category.toLowerCase()}</div>
+              {skills.flatMap((cat) => cat.items.map((skill) => ({ skill, cat }))).map(({ skill, cat }, i) => (
+                <div
+                  key={skill.name}
+                  onClick={() => setSelected({ ...skill, catColor: cat.color })}
+                  className="fx-card fade-up"
+                  style={{
+                    background: '#1a1d2e', border: '1px solid #252840',
+                    borderRadius: '12px', padding: '1.25rem 1rem',
+                    cursor: 'pointer', textAlign: 'center',
+                    position: 'relative',
+                    animationDelay: `${i * 40}ms`,
+                  }}
+                >
+                  {skill.badge && (
+                    <div style={{ position: 'absolute', top: '8px', right: '8px', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace', color: cat.color, background: `${cat.color}15`, border: `1px solid ${cat.color}30`, padding: '1px 6px', borderRadius: '3px' }}>{skill.badge}</div>
+                  )}
+                  <div style={{ fontSize: '28px', marginBottom: '10px' }}>{skill.icon}</div>
+                  <div style={{ fontSize: '13px', fontWeight: 500, color: '#e2e4f0', marginBottom: '4px' }}>{skill.name}</div>
+                  <div style={{ fontSize: '10px', color: '#5a5e80', fontFamily: 'JetBrains Mono, monospace' }}>{cat.category.toLowerCase()}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '10px' }}>
+                    <SkillMeter level={skill.level} color={cat.color} />
+                    <span style={{ fontSize: '9px', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600, color: cat.color, background: `${cat.color}18`, padding: '1px 5px', borderRadius: '3px', letterSpacing: '0.5px' }}>{levelAbbr[skill.level] ?? skill.level}</span>
                   </div>
-                ))
-              )}
+                </div>
+              ))}
+            </div>
             </div>
           </div>
-        </main>
-      </div>
 
       {/* MODAL DRAWER */}
       {selected && (
@@ -157,6 +167,6 @@ export default function Skills() {
           </div>
         </>
       )}
-    </div>
+    </AppShell>
   )
 }
