@@ -2,6 +2,7 @@
 
 import Sidebar from '@/components/layout/Sidebar'
 import Topbar from '@/components/layout/Topbar'
+import InfraPulseBackground from '@/components/decor/InfraPulseBackground'
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -18,31 +19,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         '#232b47',
       ].join(', '),
     }}>
-      <style>{`
-        @keyframes orbDrift {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50%      { transform: translate(60px, 40px) scale(1.08); }
-        }
-        @keyframes orbDrift2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50%      { transform: translate(-50px, -35px) scale(1.1); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .bg-orb { animation: none !important; }
-        }
-      `}</style>
-
-      {/* ambient glow orbs */}
-      <div className="bg-orb" aria-hidden style={{
-        position: 'absolute', top: '-120px', left: '18%', width: '420px', height: '420px',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%)',
-        filter: 'blur(70px)', animation: 'orbDrift 18s ease-in-out infinite', pointerEvents: 'none',
-      }} />
-      <div className="bg-orb" aria-hidden style={{
-        position: 'absolute', bottom: '-140px', right: '10%', width: '460px', height: '460px',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.30), transparent 70%)',
-        filter: 'blur(80px)', animation: 'orbDrift2 22s ease-in-out infinite', pointerEvents: 'none',
-      }} />
+      <InfraPulseBackground />
 
       {/* dot grid overlay */}
       <div aria-hidden style={{
