@@ -3,9 +3,40 @@
 import AppShell from '@/components/layout/AppShell'
 import { useState } from 'react'
 
+const CONTACT_API_URL = process.env.NEXT_PUBLIC_CONTACT_API_URL
+
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', company: '', email: '', role: '', message: '' })
+
+  async function handleSubmit() {
+    if (!form.name || !form.email || sending) return
+    setError('')
+
+    if (!CONTACT_API_URL) {
+      // Backend not deployed yet — don't silently pretend it worked
+      setError('Contact form isn\'t connected yet — email jayaraj.japagal07@icloud.com directly for now.')
+      return
+    }
+
+    setSending(true)
+    try {
+      const res = await fetch(CONTACT_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Contact form submit failed', err)
+      setError('Something went wrong sending that — please email jayaraj.japagal07@icloud.com directly.')
+    } finally {
+      setSending(false)
+    }
+  }
 
   return (
     <AppShell>
@@ -99,12 +130,16 @@ export default function Contact() {
                     />
                   </div>
                   <button
-                    onClick={() => { if (form.name && form.email) setSubmitted(true) }}
+                    onClick={handleSubmit}
+                    disabled={sending}
                     className="fx-btn"
-                    style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '11px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'JetBrains Mono, monospace' }}
+                    style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '11px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: sending ? 'default' : 'pointer', fontFamily: 'JetBrains Mono, monospace', opacity: sending ? 0.7 : 1 }}
                   >
-                    Send message →
+                    {sending ? 'Sending…' : 'Send message →'}
                   </button>
+                  {error && (
+                    <div style={{ fontSize: '12px', color: '#f87171', fontFamily: 'JetBrains Mono, monospace' }}>{error}</div>
+                  )}
                 </div>
               )}
             </div>
