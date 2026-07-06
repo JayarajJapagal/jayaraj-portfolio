@@ -79,7 +79,7 @@ export default function Terminal() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [lines])
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }, [lines])
 
   function runCmd() {
     const cmd = input.trim().toLowerCase()
@@ -135,7 +135,7 @@ export default function Terminal() {
 
               {/* Output */}
               <div
-                style={{ padding: '1rem', minHeight: '350px', maxHeight: '500px', overflowY: 'auto', cursor: 'text' }}
+                style={{ padding: '1rem', minHeight: '350px', cursor: 'text' }}
                 onClick={() => inputRef.current?.focus()}
               >
                 {lines.map((line, i) => (

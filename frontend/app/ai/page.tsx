@@ -128,6 +128,29 @@ function getResponse(q: string): string {
   return responses.default
 }
 
+const CHAT_API_URL = process.env.NEXT_PUBLIC_CHAT_API_URL
+
+// Calls the Claude API proxy Lambda. Falls back to the local keyword responses
+// if the endpoint isn't configured yet or the request fails, so the page never
+// breaks while the backend is being set up.
+async function getAIResponse(q: string, history: Message[]): Promise<string> {
+  if (!CHAT_API_URL) return getResponse(q)
+
+  try {
+    const res = await fetch(CHAT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, history }),
+    })
+    if (!res.ok) throw new Error(`API returned ${res.status}`)
+    const data = await res.json()
+    return data.reply || getResponse(q)
+  } catch (err) {
+    console.error('Claude API call failed, falling back to local response', err)
+    return getResponse(q)
+  }
+}
+
 export default function AIChat() {
   const [messages, setMessages] = useState<Message[]>([
     { role: 'ai', text: `Hi! I'm Jayaraj's AI assistant. I have full context of his 6+ years of experience, projects, and architecture decisions.\n\nAsk me anything about his AWS experience, Kubernetes work, Terraform setup, SQS order flow, AI/MCP work, or career history.` },
@@ -136,18 +159,18 @@ export default function AIChat() {
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }, [messages])
 
-  function send(q?: string) {
+  async function send(q?: string) {
     const text = q || input.trim()
     if (!text || loading) return
+    const historySnapshot = messages
     setMessages(prev => [...prev, { role: 'user', text }])
     setInput('')
     setLoading(true)
-    setTimeout(() => {
-      setMessages(prev => [...prev, { role: 'ai', text: getResponse(text) }])
-      setLoading(false)
-    }, 600)
+    const reply = await getAIResponse(text, historySnapshot)
+    setMessages(prev => [...prev, { role: 'ai', text: reply }])
+    setLoading(false)
   }
 
   return (
@@ -178,7 +201,7 @@ export default function AIChat() {
               </div>
 
               {/* Messages */}
-              <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '400px', overflowY: 'auto' }}>
+              <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {messages.map((msg, i) => (
                   <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }}>
                     <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: msg.role === 'ai' ? '#3b82f6' : '#252840', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 600, color: 'white', flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>

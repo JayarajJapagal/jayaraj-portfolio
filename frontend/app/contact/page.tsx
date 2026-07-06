@@ -24,18 +24,19 @@ export default function Contact() {
             {/* Links */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
-                { icon: '📧', label: 'Email', value: 'jayaraj.japagal07@icloud.com', href: 'mailto:jayaraj.japagal07@icloud.com', color: '#3b82f6' },
-                { icon: '📱', label: 'Phone', value: '+91 8197985949', href: 'tel:8197985949', color: '#34d399' },
-                { icon: '⬡', label: 'GitLab', value: 'gitlab.com/Jayaraj_1437', href: 'https://gitlab.com/Jayaraj_1437', color: '#f97316' },
-                { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/jayaraj-japagal', href: 'https://www.linkedin.com/in/jayaraj-japagal-1a106315b/', color: '#22d3ee' },
-                { icon: '📄', label: 'Resume', value: 'Download PDF', href: '/resume.pdf', color: '#8b5cf6' },
-                { icon: '📍', label: 'Location', value: 'Bengaluru, India', href: null, color: '#f87171' },
+                { icon: '📧', label: 'Email', value: 'jayaraj.japagal07@icloud.com', href: 'mailto:jayaraj.japagal07@icloud.com', download: false, color: '#3b82f6' },
+                { icon: '📱', label: 'Phone', value: '+91 8197985949', href: 'tel:8197985949', download: false, color: '#34d399' },
+                { icon: '⬡', label: 'GitLab', value: 'gitlab.com/Jayaraj_1437', href: 'https://gitlab.com/Jayaraj_1437', download: false, color: '#f97316' },
+                { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/jayaraj-japagal', href: 'https://www.linkedin.com/in/jayaraj-japagal-1a106315b/', download: false, color: '#22d3ee' },
+                { icon: '📄', label: 'Resume', value: 'Download PDF', href: '/resume.pdf', download: true, color: '#8b5cf6' },
+                { icon: '📍', label: 'Location', value: 'Bengaluru, India', href: null, download: false, color: '#f87171' },
               ].map((link, i) => (
                 <a
                   key={link.label}
                   href={link.href || '#'}
                   target={link.href?.startsWith('http') ? '_blank' : undefined}
                   rel="noreferrer"
+                  download={link.download ? true : undefined}
                   className="fx-card fade-up"
                   style={{
                     display: 'flex', alignItems: 'center', gap: '12px',
